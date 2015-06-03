@@ -40,9 +40,11 @@ $properties = $xpath->query('//div[@class="view-tile-left-floater listing-holder
 
 #loop through each of the row items
 foreach($properties as $container) {
+
 	//get the anchor tag
   $arr = $container->getElementsByTagName("a");
 
+  //loop through the items
   foreach($arr as $item) {
    	
   	#links
@@ -74,11 +76,10 @@ foreach($properties as $container) {
    	foreach($rowLocation as $rowItem){ $propLocation = trim(preg_replace("/[\r\n]+/", " ", $rowItem->nodeValue)); }
 
    	echo "<pre>";
-   	$itemRight = $xpathRow->query('//table[@id="table-listing-details"]');
-   	foreach($itemRight as $rowItem){
-   		var_dump($rowItem);
-   	}
-
+		$itemRight  = $xpathRow->query('//table[@id="table-listing-details"]');
+		$itemRightC = $itemRight->item(0);
+		$tds        = $xpathRow->query('//td', $itemRightC);
+		var_dump($tds);
    	/*
     echo "<pre>";
     echo "TITLE : {$propTitle} <br/>";
