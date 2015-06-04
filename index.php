@@ -75,20 +75,83 @@ foreach($properties as $container) {
    	$rowLocation = $xpathRow->query('//span[@style="font-size:14px; font-weight: normal; margin-top:10px; position: relative; top:-5px;"]');
    	foreach($rowLocation as $rowItem){ $propLocation = trim(preg_replace("/[\r\n]+/", " ", $rowItem->nodeValue)); }
 
-   	echo "<pre>";
+   	#get the prop contact name
+		$propContactPerson = "";
+		$rowContactPerson = $xpathRow->query('//div[@id="contact-name"]');
+   	foreach($rowContactPerson as $rowItem){ $propContactPerson = trim(preg_replace("/[\r\n]+/", " ", $rowItem->nodeValue)); }
+
+   	#get the prop contact email
+		$propContactEmail    = "";
+		$rowContactEmail = $xpathRow->query('//div[@id="contact-email"]');
+   	foreach($rowContactEmail as $rowItem){ $propContactEmail = trim(preg_replace("/[\r\n]+/", " ", $rowItem->nodeValue)); }
+
+   	#get the prop contact mobile
+		$propContactMobile   = "";
+		$rowContactMobile = $xpathRow->query('//div[@id="contact-mobile"]');
+   	foreach($rowContactMobile as $rowItem){ $propContactMobile = trim(preg_replace("/[\r\n]+/", " ", $rowItem->nodeValue)); }
+
+   	#get the prop contact landline
+		$propContactLandline = "";
+		$rowContactLandline = $xpathRow->query('//div[@id="contact-landline"]');
+   	foreach($rowContactLandline as $rowItem){ $propContactLandline = trim(preg_replace("/[\r\n]+/", " ", $rowItem->nodeValue)); }
+
 		$itemRight  = $xpathRow->query('//table[@id="table-listing-details"]');
-		$itemRightC = $itemRight->item(0);
-		$tds        = $xpathRow->query('//td', $itemRightC);
-		var_dump($tds);
-   	/*
+
+		#get prop price
+		$propPrice      = "";
+		$propCity       = "";
+		$propLoc        = "";
+		$propFloor      = "";
+		$propSq         = "";
+		$propBedRooms   = "";
+		$propBathRooms  = "";
+		$propFurnishing = "";
+
+		#get the table 
+		foreach($itemRight as $rowItem):
+			$cNodes = $rowItem->childNodes;
+
+
+			for($i=0;$i<$cNodes->length;$i++):
+				$tdcNodes = $cNodes->item($i)->childNodes;
+				switch ($i) {
+					case 1:
+						$propPrice = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
+						break;
+					case 5:
+						$propLoc = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
+						break;
+					case 6:
+						$propFloor = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
+						break;
+					case 7:
+						$propSq = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
+						break;
+					case 8:
+						$propBedRooms = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
+						break;
+					case 9:
+						$propBathRooms = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
+						break;
+					case 10:
+						$propFurnishing = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
+						break;
+					default:
+						break;
+				}
+			endfor;
+		endforeach;
+
     echo "<pre>";
     echo "TITLE : {$propTitle} <br/>";
     echo "ID : {$propId} <br/>";
     echo "DESC : {$propDesc} <br/>";
     echo "LOCATION : {$propLocation}";
-    var_dump("=======================================================================================================");*/
+    var_dump("=======================================================================================================");
+    
 
     echo "</pre>";
+    die();
 
   }
 }
