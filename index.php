@@ -43,15 +43,22 @@ foreach($properties as $container) {
 
 	//get the anchor tag
   $arr = $container->getElementsByTagName("a");
+  $img = $container->getElementsByTagName("img");
 
   //loop through the items
-  foreach($arr as $item) {
+  foreach($arr as $index=>$item) {
    	
   	#links
     $href =  $item->getAttribute("href");
+
+    #explode the link
     $explodedHref  = explode("/", $href);
 
-		#container doc
+    #get the image src
+    $imageSrc = "";
+    foreach($img->item($index)->attributes as $attr){ if($attr->name=="data-src"){ $imageSrc = $attr->textContent; } }
+
+		#cont	ainer doc
     $containerDoc = execUrl($href);
   	
     #xpath the content of each row
@@ -110,13 +117,11 @@ foreach($properties as $container) {
 		#get the table 
 		foreach($itemRight as $rowItem):
 			$cNodes = $rowItem->childNodes;
-
-
 			for($i=0;$i<$cNodes->length;$i++):
 				$tdcNodes = $cNodes->item($i)->childNodes;
 				switch ($i) {
 					case 1:
-						$propPrice = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
+						$propPrice = intval(preg_replace('/[^A-Za-z0-9\-]/', '',trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue))))." / Month";
 						break;
 					case 5:
 						$propLoc = trim(preg_replace("/[\r\n]+/", " ", $tdcNodes->item(2)->nodeValue));
@@ -145,13 +150,22 @@ foreach($properties as $container) {
     echo "<pre>";
     echo "TITLE : {$propTitle} <br/>";
     echo "ID : {$propId} <br/>";
+    echo "ORIGINAL LINK : {$href} <br/>";
     echo "DESC : {$propDesc} <br/>";
-    echo "LOCATION : {$propLocation}";
-    var_dump("=======================================================================================================");
-    
-
+    echo "LOCATION : {$propLocation} <br/>";
+    echo "CONTACT PERSON : {$propContactPerson} <br/>";
+    echo "CONTACT PERSON EMAIL : {$propContactEmail} <br/>";
+    echo "CONTACT PERSON MOBILE : {$propContactMobile} <br/>";
+    echo "CONTACT PERSON LANDLINE : {$propContactLandline} <br/>";
+    echo "PRICE : {$propPrice} <br/>";
+    echo "FLOOR : {$propFloor} <br/>";
+    echo "BEDROOMS : {$propBedRooms} <br/>";
+    echo "BATHROOMS : {$propBathRooms} <br/>";
+    echo "FURNISHING : {$propFurnishing} <br/>";
+    echo "IMAGE : {$imageSrc} <br/>";
+    echo "<img src='{$imageSrc}'>";
     echo "</pre>";
-    die();
-
+    
+    echo "<br/> =================================================================================================== <br/>";
   }
 }
