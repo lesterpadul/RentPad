@@ -1,5 +1,6 @@
 <?php
 
+//CURL
 function execUrl($url){
 	$request = curl_init();
 
@@ -81,7 +82,7 @@ foreach($properties as $container) {
    	$propLocation = "";
    	$rowLocation = $xpathRow->query('//span[@style="font-size:14px; font-weight: normal; margin-top:10px; position: relative; top:-5px;"]');
    	foreach($rowLocation as $rowItem){ $propLocation = trim(preg_replace("/[\r\n]+/", " ", $rowItem->nodeValue)); }
-
+   	
    	#get the prop contact name
 		$propContactPerson = "";
 		$rowContactPerson = $xpathRow->query('//div[@id="contact-name"]');
@@ -165,7 +166,7 @@ foreach($properties as $container) {
     echo "IMAGE : {$imageSrc} <br/>";
     echo "<img src='{$imageSrc}'>";
     echo "</pre>";
-    
+
     echo "<br/> =================================================================================================== <br/>";
   }
 }
